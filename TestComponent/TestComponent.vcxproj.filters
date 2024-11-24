@@ -16,6 +16,7 @@
     <ClCompile Include="Composable.cpp" />
     <ClCompile Include="Derived.cpp" />
     <ClCompile Include="Class.cpp" />
+    <ClCompile Include="OverloadClass.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -23,6 +24,7 @@
     <ClInclude Include="Composable.h" />
     <ClInclude Include="Derived.h" />
     <ClInclude Include="Class.h" />
+    <ClInclude Include="OverloadClass.h" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="TestComponent.idl" />
