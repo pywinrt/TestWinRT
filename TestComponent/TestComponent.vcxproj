@@ -151,6 +151,7 @@
     <ClInclude Include="Composable.h" />
     <ClInclude Include="Derived.h" />
     <ClInclude Include="OverloadClass.h" />
+    <ClInclude Include="Override.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="TestRunner.h" />
   </ItemGroup>
@@ -159,6 +160,7 @@
     <ClCompile Include="Composable.cpp" />
     <ClCompile Include="Derived.cpp" />
     <ClCompile Include="OverloadClass.cpp" />
+    <ClCompile Include="Override.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>

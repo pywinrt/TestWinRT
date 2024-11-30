@@ -339,4 +339,17 @@ namespace TestComponent
         [overridable] interface TestComponent.IOverloadClassOverrides;
         [overridable] interface TestComponent.IOverloadClassOverrides2;
     }
+
+    unsealed runtimeclass Override
+    {
+        Override();
+
+        void CallProtected();
+        protected void OnProtected();
+        event Windows.Foundation.EventHandler<Object> ProtectedCalled;
+
+        void CallOverridable();
+        overridable void OnOverridable();
+        event Windows.Foundation.EventHandler<Object> OverridableCalled;
+    }
 }
