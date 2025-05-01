@@ -816,6 +816,78 @@ namespace winrt::TestComponent::implementation
         co_await resume_after(CreateTimeSpan(milliseconds));
     }
 
+    IAsyncAction TestRunner::CreateAsyncActionWithError(uint32_t milliseconds, int32_t error)
+    {
+        co_await resume_after(CreateTimeSpan(milliseconds));
+        throw hresult_error(hresult(error));
+    }
+
+    IAsyncOperation<int32_t> TestRunner::CreateAsyncOperation(uint32_t milliseconds, int32_t result)
+    {
+        co_await resume_after(CreateTimeSpan(milliseconds));
+        co_return result;
+    }
+
+    IAsyncOperation<int32_t> TestRunner::CreateAsyncOperationWithError(uint32_t milliseconds, int32_t result, int32_t error)
+    {
+        co_await resume_after(CreateTimeSpan(milliseconds));
+        throw hresult_error(hresult(error));
+		co_return result;
+    }
+
+    IAsyncActionWithProgress<int32_t> TestRunner::CreateAsyncActionWithProgress(uint32_t milliseconds, IVectorView<int32_t> const items)
+    {
+        auto progress{ co_await get_progress_token() };
+
+        for (auto item : items)
+        {
+            co_await resume_after(CreateTimeSpan(milliseconds));
+            progress(item);
+        }
+    }
+
+    IAsyncActionWithProgress<int32_t> TestRunner::CreateAsyncActionWithProgressWithError(uint32_t milliseconds, IVectorView<int32_t> const items, int32_t error)
+    {
+        auto progress{ co_await get_progress_token() };
+
+        for (auto item : items)
+        {
+            co_await resume_after(CreateTimeSpan(milliseconds));
+            progress(item);
+        }
+
+        throw hresult_error(hresult(error));
+    }
+
+    IAsyncOperationWithProgress<int32_t, int32_t> TestRunner::CreateAsyncOperationWithProgress(uint32_t milliseconds, IVectorView<int32_t> const items, int32_t result)
+    {
+        auto progress{ co_await get_progress_token() };
+
+        for (auto item : items)
+        {
+            co_await resume_after(CreateTimeSpan(milliseconds));
+            progress.set_result(item);
+            progress(item);
+        }
+
+        co_return result;
+    }
+
+    IAsyncOperationWithProgress<int32_t, int32_t> TestRunner::CreateAsyncOperationWithProgressWithError(uint32_t milliseconds, IVectorView<int32_t> const items, int32_t result, int32_t error)
+    {
+        auto progress{ co_await get_progress_token() };
+
+		for (auto item : items)
+		{
+			co_await resume_after(CreateTimeSpan(milliseconds));
+			progress.set_result(item);
+            progress(item);
+		}
+
+        throw hresult_error(hresult(error));
+        co_return result;
+    }
+
     hstring TestRunner::ExpectObject(Windows::Foundation::IInspectable const& value)
     {
         return get_class_name(value);

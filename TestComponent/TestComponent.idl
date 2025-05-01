@@ -243,6 +243,13 @@ namespace TestComponent
         static Windows.Foundation.Collections.IVector<Windows.Foundation.IStringable> CreateStringableVector();
         static Windows.Foundation.TimeSpan CreateTimeSpan(UInt32 milliseconds);
         static Windows.Foundation.IAsyncAction CreateAsyncAction(UInt32 milliseconds);
+        static Windows.Foundation.IAsyncAction CreateAsyncActionWithError(UInt32 milliseconds, Int32 error);
+        static Windows.Foundation.IAsyncOperation<Int32> CreateAsyncOperation(UInt32 milliseconds, Int32 result);
+        static Windows.Foundation.IAsyncOperation<Int32> CreateAsyncOperationWithError(UInt32 milliseconds, Int32 result, Int32 error);
+        static Windows.Foundation.IAsyncActionWithProgress<Int32> CreateAsyncActionWithProgress(UInt32 milliseconds, Windows.Foundation.Collections.IVectorView<Int32> items);
+        static Windows.Foundation.IAsyncActionWithProgress<Int32> CreateAsyncActionWithProgressWithError(UInt32 milliseconds, Windows.Foundation.Collections.IVectorView<Int32> items, Int32 error);
+        static Windows.Foundation.IAsyncOperationWithProgress<Int32, Int32> CreateAsyncOperationWithProgress(UInt32 milliseconds, Windows.Foundation.Collections.IVectorView<Int32> items, Int32 result);
+        static Windows.Foundation.IAsyncOperationWithProgress<Int32, Int32> CreateAsyncOperationWithProgressWithError(UInt32 milliseconds, Windows.Foundation.Collections.IVectorView<Int32> items, Int32 result, Int32 error);
         static String ExpectObject(Object value);
     }
 
