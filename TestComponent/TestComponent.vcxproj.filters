@@ -18,6 +18,8 @@
     <ClCompile Include="Class.cpp" />
     <ClCompile Include="OverloadClass.cpp" />
     <ClCompile Include="Override.cpp" />
+    <ClCompile Include="AsyncActionSource.cpp" />
+    <ClCompile Include="AsyncOperationSource.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -27,6 +29,9 @@
     <ClInclude Include="Class.h" />
     <ClInclude Include="OverloadClass.h" />
     <ClInclude Include="Override.h" />
+    <ClInclude Include="AsyncActionSource.h" />
+    <ClInclude Include="AsyncOperationSource.h" />
+    <ClInclude Include="ControlledAsync.h" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="TestComponent.idl" />

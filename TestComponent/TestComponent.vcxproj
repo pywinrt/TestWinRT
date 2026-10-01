@@ -147,6 +147,9 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AsyncActionSource.h" />
+    <ClInclude Include="AsyncOperationSource.h" />
+    <ClInclude Include="ControlledAsync.h" />
     <ClInclude Include="Class.h" />
     <ClInclude Include="Composable.h" />
     <ClInclude Include="Derived.h" />
@@ -156,6 +159,8 @@
     <ClInclude Include="TestRunner.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AsyncActionSource.cpp" />
+    <ClCompile Include="AsyncOperationSource.cpp" />
     <ClCompile Include="Class.cpp" />
     <ClCompile Include="Composable.cpp" />
     <ClCompile Include="Derived.cpp" />

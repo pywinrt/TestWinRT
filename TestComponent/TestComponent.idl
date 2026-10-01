@@ -359,4 +359,59 @@ namespace TestComponent
         overridable void OnOverridable();
         event Windows.Foundation.EventHandler<Object> OverridableCalled;
     }
+
+    // An async action whose every step the caller drives, for testing how a
+    // projection waits for an operation, cancels it and lets go of it.
+    //
+    // Cancel() on the operation only counts the request, as an operation that
+    // takes time to stop does. The operation finishes when the caller calls
+    // Complete(), Fail() or Cancel() here.
+    runtimeclass AsyncActionSource
+    {
+        AsyncActionSource();
+
+        // The operation, made the first time it is read. The source does not
+        // keep it alive.
+        Windows.Foundation.IAsyncAction Operation{ get; };
+
+        // Whether the operation still exists, which it does until every
+        // reference to it has been released.
+        Boolean IsOperationAlive{ get; };
+
+        // How many times Cancel() has been called on the operation.
+        UInt32 CancelRequestCount{ get; };
+
+        // Whether a completed handler has been set on the operation.
+        Boolean HasCompletedHandler{ get; };
+
+        // When true, finishing the operation changes its status but leaves the
+        // completed handler uncalled until InvokeCompletedHandler().
+        Boolean DefersCompletedHandler{ get; set; };
+
+        // Finishes the operation as Completed, Error or Canceled. Canceled is
+        // what the operation does whether or not Cancel() was called on it.
+        void Complete();
+        void Fail(Int32 error);
+        void Cancel();
+
+        // Calls the completed handler that DefersCompletedHandler held back.
+        void InvokeCompletedHandler();
+    }
+
+    // AsyncActionSource for an IAsyncOperation<Int32>.
+    runtimeclass AsyncOperationSource
+    {
+        AsyncOperationSource();
+
+        Windows.Foundation.IAsyncOperation<Int32> Operation{ get; };
+        Boolean IsOperationAlive{ get; };
+        UInt32 CancelRequestCount{ get; };
+        Boolean HasCompletedHandler{ get; };
+        Boolean DefersCompletedHandler{ get; set; };
+
+        void Complete(Int32 result);
+        void Fail(Int32 error);
+        void Cancel();
+        void InvokeCompletedHandler();
+    }
 }
