@@ -8,6 +8,11 @@ on:
 jobs:
   build:
     runs-on: windows-2022
+    permissions:
+      contents: read
+      # NuGet trusted publishing exchanges the workflow's OIDC token for a
+      # short-lived API key
+      id-token: write
     steps:
     - name: checkout project
       uses: actions/checkout@v4
@@ -17,8 +22,6 @@ jobs:
 
     - name: setup nuget
       uses: NuGet/setup-nuget@v2
-      with:
-        nuget-api-key: ${{ secrets.NUGET_API_KEY }}
 
     - name: setup cppwinrt
       run: nuget restore test.sln
@@ -35,5 +38,11 @@ jobs:
     - name: nuget pack
       run: nuget.exe pack TestComponent/TestComponent.nuspec -OutputFileNamesWithoutVersion
 
+    - name: nuget login
+      id: login
+      uses: NuGet/login@v1
+      with:
+        user: dlech
+
     - name: nuget push
-      run: nuget push PyWinRT.TestWinRT.nupkg -Source nuget.org
+      run: nuget push PyWinRT.TestWinRT.nupkg -Source nuget.org -ApiKey ${{ steps.login.outputs.NUGET_API_KEY }}
