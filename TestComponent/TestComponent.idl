@@ -360,6 +360,19 @@ namespace TestComponent
         event Windows.Foundation.EventHandler<Object> OverridableCalled;
     }
 
+    // A composable class derived from one with an overridable member, which
+    // adds one of its own, for testing that a projection answers the
+    // overridable interfaces of every class in the chain and not only those
+    // of the most derived one.
+    unsealed runtimeclass DerivedOverride : Override
+    {
+        DerivedOverride();
+
+        void CallDerivedOverridable();
+        overridable void OnDerivedOverridable();
+        event Windows.Foundation.EventHandler<Object> DerivedOverridableCalled;
+    }
+
     // An async action whose every step the caller drives, for testing how a
     // projection waits for an operation, cancels it and lets go of it.
     //

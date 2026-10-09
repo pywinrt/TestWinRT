@@ -153,6 +153,7 @@
     <ClInclude Include="Class.h" />
     <ClInclude Include="Composable.h" />
     <ClInclude Include="Derived.h" />
+    <ClInclude Include="DerivedOverride.h" />
     <ClInclude Include="OverloadClass.h" />
     <ClInclude Include="Override.h" />
     <ClInclude Include="pch.h" />
@@ -164,6 +165,7 @@
     <ClCompile Include="Class.cpp" />
     <ClCompile Include="Composable.cpp" />
     <ClCompile Include="Derived.cpp" />
+    <ClCompile Include="DerivedOverride.cpp" />
     <ClCompile Include="OverloadClass.cpp" />
     <ClCompile Include="Override.cpp" />
     <ClCompile Include="pch.cpp">
