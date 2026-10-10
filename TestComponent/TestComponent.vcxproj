@@ -156,6 +156,7 @@
     <ClInclude Include="DerivedOverride.h" />
     <ClInclude Include="OverloadClass.h" />
     <ClInclude Include="Override.h" />
+    <ClInclude Include="ProtectedMembers.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="TestRunner.h" />
   </ItemGroup>
@@ -168,6 +169,7 @@
     <ClCompile Include="DerivedOverride.cpp" />
     <ClCompile Include="OverloadClass.cpp" />
     <ClCompile Include="Override.cpp" />
+    <ClCompile Include="ProtectedMembers.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>

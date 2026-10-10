@@ -373,6 +373,26 @@ namespace TestComponent
         event Windows.Foundation.EventHandler<Object> DerivedOverridableCalled;
     }
 
+    // A composable class whose constructors, property and method only a
+    // derived class may use, as a XAML base class such as Panel or Control
+    // has, and with an overridable property, for testing how a projection
+    // exposes protected members and composes a derived class through a
+    // protected constructor.
+    unsealed runtimeclass ProtectedMembers
+    {
+        protected ProtectedMembers();
+        protected ProtectedMembers(Int32 initial);
+
+        protected Int32 ProtectedValue;
+        protected Int32 ProtectedMethod();
+
+        // Read through the overridable interface, as WinRT reads it, so a
+        // derived class's own is what it returns; the class's own is
+        // ProtectedValue.
+        overridable Int32 OverridableValue{ get; };
+        Int32 ReadOverridableValue();
+    }
+
     // An async action whose every step the caller drives, for testing how a
     // projection waits for an operation, cancels it and lets go of it.
     //

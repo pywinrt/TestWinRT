@@ -19,6 +19,7 @@
     <ClCompile Include="Class.cpp" />
     <ClCompile Include="OverloadClass.cpp" />
     <ClCompile Include="Override.cpp" />
+    <ClCompile Include="ProtectedMembers.cpp" />
     <ClCompile Include="AsyncActionSource.cpp" />
     <ClCompile Include="AsyncOperationSource.cpp" />
   </ItemGroup>
@@ -31,6 +32,7 @@
     <ClInclude Include="Class.h" />
     <ClInclude Include="OverloadClass.h" />
     <ClInclude Include="Override.h" />
+    <ClInclude Include="ProtectedMembers.h" />
     <ClInclude Include="AsyncActionSource.h" />
     <ClInclude Include="AsyncOperationSource.h" />
     <ClInclude Include="ControlledAsync.h" />
