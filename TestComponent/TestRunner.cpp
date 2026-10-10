@@ -127,6 +127,7 @@ namespace winrt::TestComponent::implementation
         template<size_t number, typename type, typename ParamHandler>
         void ParamPrimitiveCall(type const a, ParamHandler const& handler)
         {
+            not_null(handler, L"handler");
             type b;
             type c = handler(a, b);
             TEST_REQUIRE_N(L"Param", number, a == b && a == c);
@@ -155,6 +156,7 @@ namespace winrt::TestComponent::implementation
         template<size_t number, typename type, typename ParamHandler>
         void ParamStructCall(type const a, ParamHandler const& handler)
         {
+            not_null(handler, L"handler");
             type b;
             type c = handler(a, a, b);
             TEST_REQUIRE_N(L"Param", number, a == b && a == c);
@@ -206,6 +208,7 @@ namespace winrt::TestComponent::implementation
     template<size_t number, typename type, typename ArrayHandler>
     void ArrayCall(std::array<type, 3> a, ArrayHandler const& handler)
     {
+        not_null(handler, L"handler");
         std::array<type, 3> b; 
         com_array<type> c; 
         com_array<type> d = handler(a, b, c); 
@@ -239,11 +242,13 @@ namespace winrt::TestComponent::implementation
 
         auto Collection1(IIterable<hstring> const& a, IIterable<hstring>& b)
         {
+            not_null(a, L"a");
             b = single_threaded_vector(std::vector<hstring>{ begin(a), end(a) });
             return b;
         }
         auto Collection2(IIterable<IKeyValuePair<hstring, hstring>> const& a, IIterable<IKeyValuePair<hstring, hstring>>& b)
         {
+            not_null(a, L"a");
             std::map<hstring, hstring> copy;
 
             for (auto&& pair : a)
@@ -256,6 +261,7 @@ namespace winrt::TestComponent::implementation
         }
         auto Collection3(IMap<hstring, hstring> const& a, IMap<hstring, hstring>& b)
         {
+            not_null(a, L"a");
             std::map<hstring, hstring> copy;
 
             for (auto&& pair : a)
@@ -268,6 +274,7 @@ namespace winrt::TestComponent::implementation
         }
         auto Collection4(IMapView<hstring, hstring> const& a, IMapView<hstring, hstring>& b)
         {
+            not_null(a, L"a");
             std::map<hstring, hstring> copy;
 
             for (auto&& pair : a)
@@ -280,39 +287,47 @@ namespace winrt::TestComponent::implementation
         }
         auto Collection5(IVector<hstring> const& a, IVector<hstring>& b)
         {
+            not_null(a, L"a");
             b = single_threaded_vector(std::vector<hstring>{ begin(a), end(a) });
             return b;
         }
 
         auto Collection6(IVectorView<hstring> const& a, IVectorView<hstring>& b)
         {
+            not_null(a, L"a");
             b = single_threaded_vector_view(std::vector<hstring>{ begin(a), end(a) });
             return b;
         }
 
         void Collection1Call(Collection1Handler const& handler)
         {
+            not_null(handler, L"handler");
             IIterable<hstring> a = single_threaded_vector<hstring>({ L"apples",L"oranges",L"pears" });
             IIterable<hstring> b;
-            IIterable<hstring> c = handler(a, b);
+            IIterable<hstring> c = not_null(handler(a, b), L"handler's return value");
+            not_null(b, L"handler's b");
             TEST_REQUIRE_N(L"Collection", 1, a != b && a != c);
             TEST_REQUIRE_N(L"Collection", 1, std::equal(begin(a), end(a), begin(b), end(b)));
             TEST_REQUIRE_N(L"Collection", 1, std::equal(begin(a), end(a), begin(c), end(c)));
         }
         void Collection2Call(Collection2Handler const& handler)
         {
+            not_null(handler, L"handler");
             IIterable<IKeyValuePair<hstring, hstring>> a = single_threaded_map<hstring, hstring>(std::map<hstring, hstring>{ {L"apples", L"1"}, { L"oranges",L"2" }, { L"pears",L"3" } });
             IIterable<IKeyValuePair<hstring, hstring>> b;
-            IIterable<IKeyValuePair<hstring, hstring>> c = handler(a, b);
+            IIterable<IKeyValuePair<hstring, hstring>> c = not_null(handler(a, b), L"handler's return value");
+            not_null(b, L"handler's b");
             TEST_REQUIRE_N(L"Collection", 2, a != b && a != c);
             TEST_REQUIRE_N(L"Collection", 2, std::equal(begin(a), end(a), begin(b), end(b)));
             TEST_REQUIRE_N(L"Collection", 2, std::equal(begin(a), end(a), begin(c), end(c)));
         }
         void Collection3Call(Collection3Handler const& handler)
         {
+            not_null(handler, L"handler");
             IMap<hstring, hstring> a = single_threaded_map<hstring, hstring>(std::map<hstring, hstring>{ {L"apples", L"1"}, { L"oranges",L"2" }, { L"pears",L"3" } });
             IMap<hstring, hstring> b;
-            IMap<hstring, hstring> c = handler(a, b);
+            IMap<hstring, hstring> c = not_null(handler(a, b), L"handler's return value");
+            not_null(b, L"handler's b");
             TEST_REQUIRE_N(L"Collection", 3, a != b && a != c);
             TEST_REQUIRE_N(L"Collection", 3, std::equal(begin(a), end(a), begin(b), end(b)));
             TEST_REQUIRE_N(L"Collection", 3, std::equal(begin(a), end(a), begin(c), end(c)));
@@ -329,9 +344,11 @@ namespace winrt::TestComponent::implementation
         }
         void Collection4Call(Collection4Handler const& handler)
         {
+            not_null(handler, L"handler");
             IMapView<hstring, hstring> a = single_threaded_map_view<hstring, hstring>(std::map<hstring, hstring>{ {L"apples", L"1"}, { L"oranges",L"2" }, { L"pears",L"3" } });
             IMapView<hstring, hstring> b;
-            IMapView<hstring, hstring> c = handler(a, b);
+            IMapView<hstring, hstring> c = not_null(handler(a, b), L"handler's return value");
+            not_null(b, L"handler's b");
             TEST_REQUIRE_N(L"Collection", 4, a != b && a != c);
             TEST_REQUIRE_N(L"Collection", 4, std::equal(begin(a), end(a), begin(b), end(b)));
             TEST_REQUIRE_N(L"Collection", 4, std::equal(begin(a), end(a), begin(c), end(c)));
@@ -345,9 +362,11 @@ namespace winrt::TestComponent::implementation
         }
         void Collection5Call(Collection5Handler const& handler)
         {
+            not_null(handler, L"handler");
             IVector<hstring> a = single_threaded_vector<hstring>({ L"apples",L"oranges",L"pears" });
             IVector<hstring> b;
-            IVector<hstring> c = handler(a, b);
+            IVector<hstring> c = not_null(handler(a, b), L"handler's return value");
+            not_null(b, L"handler's b");
             TEST_REQUIRE_N(L"Collection", 5, a != b && a != c);
             TEST_REQUIRE_N(L"Collection", 5, std::equal(begin(a), end(a), begin(b), end(b)));
             TEST_REQUIRE_N(L"Collection", 5, std::equal(begin(a), end(a), begin(c), end(c)));
@@ -368,9 +387,11 @@ namespace winrt::TestComponent::implementation
         }
         void Collection6Call(Collection6Handler const& handler)
         {
+            not_null(handler, L"handler");
             IVectorView<hstring> a = single_threaded_vector_view<hstring>({ L"apples",L"oranges",L"pears" });
             IVectorView<hstring> b;
-            IVectorView<hstring> c = handler(a, b);
+            IVectorView<hstring> c = not_null(handler(a, b), L"handler's return value");
+            not_null(b, L"handler's b");
             TEST_REQUIRE_N(L"Collection", 6, a != b && a != c);
             TEST_REQUIRE_N(L"Collection", 6, std::equal(begin(a), end(a), begin(b), end(b)));
             TEST_REQUIRE_N(L"Collection", 6, std::equal(begin(a), end(a), begin(c), end(c)));
@@ -426,19 +447,20 @@ namespace winrt::TestComponent::implementation
 
         void Async1Call(Async1Handler const& handler)
         {
+            not_null(handler, L"handler");
             {
-                TEST_REQUIRE(L"Async1", handler(NoAsync(), false).Status() == AsyncStatus::Completed);
+                TEST_REQUIRE(L"Async1", not_null(handler(NoAsync(), false), L"handler's return value").Status() == AsyncStatus::Completed);
             }
             {
                 auto signal = auto_event();
-                auto async = handler(SignalAsync(signal.get()), false);
+                auto async = not_null(handler(SignalAsync(signal.get()), false), L"handler's return value");
                 TEST_REQUIRE(L"Async1", async.Status() == AsyncStatus::Started);
                 SetEvent(signal.get());
                 async.get();
             }
             {
                 auto signal = auto_event();
-                auto async = handler(SignalAsync(signal.get()), true);
+                auto async = not_null(handler(SignalAsync(signal.get()), true), L"handler's return value");
                 TEST_REQUIRE(L"Async1", async.Status() == AsyncStatus::Started);
                 SetEvent(signal.get());
                 try
@@ -454,12 +476,13 @@ namespace winrt::TestComponent::implementation
         }
         void Async2Call(Async2Handler const& handler)
         {
+            not_null(handler, L"handler");
             {
-                TEST_REQUIRE(L"Async2", handler(NoAsync(), false, 321).Status() == AsyncStatus::Completed);
+                TEST_REQUIRE(L"Async2", not_null(handler(NoAsync(), false, 321), L"handler's return value").Status() == AsyncStatus::Completed);
             }
             {
                 auto signal = auto_event();
-                auto async = handler(SignalAsync(signal.get()), false, 321);
+                auto async = not_null(handler(SignalAsync(signal.get()), false, 321), L"handler's return value");
                 TEST_REQUIRE(L"Async2", async.Status() == AsyncStatus::Started);
                 int32_t progress{};
                 async.Progress([&](auto&&, int32_t args)
@@ -472,7 +495,7 @@ namespace winrt::TestComponent::implementation
             }
             {
                 auto signal = auto_event();
-                auto async = handler(SignalAsync(signal.get()), true, 321);
+                auto async = not_null(handler(SignalAsync(signal.get()), true, 321), L"handler's return value");
                 TEST_REQUIRE(L"Async2", async.Status() == AsyncStatus::Started);
                 int32_t progress{};
                 async.Progress([&](auto&&, int32_t args)
@@ -494,21 +517,22 @@ namespace winrt::TestComponent::implementation
         }
         void Async3Call(Async3Handler const& handler)
         {
+            not_null(handler, L"handler");
             {
-                auto async = handler(NoAsync(), false, 123);
+                auto async = not_null(handler(NoAsync(), false, 123), L"handler's return value");
                 TEST_REQUIRE(L"Async3", async.Status() == AsyncStatus::Completed);
                 TEST_REQUIRE(L"Async3", async.get() == 123);
             }
             {
                 auto signal = auto_event();
-                auto async = handler(SignalAsync(signal.get()), false, 123);
+                auto async = not_null(handler(SignalAsync(signal.get()), false, 123), L"handler's return value");
                 TEST_REQUIRE(L"Async3", async.Status() == AsyncStatus::Started);
                 SetEvent(signal.get());
                 TEST_REQUIRE(L"Async3", async.get() == 123);
             }
             {
                 auto signal = auto_event();
-                auto async = handler(SignalAsync(signal.get()), true, 123);
+                auto async = not_null(handler(SignalAsync(signal.get()), true, 123), L"handler's return value");
                 TEST_REQUIRE(L"Async3", async.Status() == AsyncStatus::Started);
                 SetEvent(signal.get());
                 try
@@ -524,14 +548,15 @@ namespace winrt::TestComponent::implementation
         }
         void Async4Call(Async4Handler const& handler)
         {
+            not_null(handler, L"handler");
             {
-                auto async = handler(NoAsync(), false, 123, 321);
+                auto async = not_null(handler(NoAsync(), false, 123, 321), L"handler's return value");
                 TEST_REQUIRE(L"Async4", async.Status() == AsyncStatus::Completed);
                 TEST_REQUIRE(L"Async4", async.get() == 123);
             }
             {
                 auto signal = auto_event();
-                auto async = handler(SignalAsync(signal.get()), false, 123, 321);
+                auto async = not_null(handler(SignalAsync(signal.get()), false, 123, 321), L"handler's return value");
                 TEST_REQUIRE(L"Async4", async.Status() == AsyncStatus::Started);
                 int32_t progress{};
                 async.Progress([&](auto&&, int32_t args)
@@ -544,7 +569,7 @@ namespace winrt::TestComponent::implementation
             }
             {
                 auto signal = auto_event();
-                auto async = handler(SignalAsync(signal.get()), true, 123, 321);
+                auto async = not_null(handler(SignalAsync(signal.get()), true, 123, 321), L"handler's return value");
                 TEST_REQUIRE(L"Async4", async.Status() == AsyncStatus::Started);
                 int32_t progress{};
                 async.Progress([&](auto&&, int32_t args)
@@ -567,7 +592,7 @@ namespace winrt::TestComponent::implementation
 
         event_token Event1(EventHandler<int32_t> const& handler)
         {
-            return m_event1.add(handler);
+            return m_event1.add(not_null(handler, L"handler"));
         }
 
         void Event1(event_token token) noexcept
@@ -577,7 +602,7 @@ namespace winrt::TestComponent::implementation
 
         event_token Event2(TypedEventHandler<ITests, int32_t> const& handler)
         {
-            return m_event2.add(handler);
+            return m_event2.add(not_null(handler, L"handler"));
         }
 
         void Event2(event_token token)
@@ -601,7 +626,7 @@ namespace winrt::TestComponent::implementation
             int32_t startIndex) \
         { \
             std::array<## type ##, 3> subset{}; \
-            vector.GetMany(startIndex, subset); \
+            not_null(vector, L"vector").GetMany(startIndex, subset); \
             return winrt::single_threaded_vector_view(std::vector<## type ##>{subset.begin(), subset.end()}); \
         }
 
@@ -619,7 +644,7 @@ namespace winrt::TestComponent::implementation
 #define TEST_GEN(number, type, ...) \
         auto Box ## number ##(type param, IInspectable boxedParam) \
         { \
-            auto unboxedValue = unbox_value<type>(boxedParam); \
+            auto unboxedValue = unbox_value<type>(not_null(boxedParam, L"boxedParam")); \
             TEST_REQUIRE_N(L"Param", ## number ##, param == unboxedValue); \
             return box_value(param); \
         }
@@ -647,7 +672,7 @@ namespace winrt::TestComponent::implementation
 #define TEST_GEN(number, type, ...) \
         auto Box ## number ##(array_view<type const>param, IInspectable boxedParam) \
         { \
-            auto referenceArray = boxedParam.as<IReferenceArray<type>>(); \
+            auto referenceArray = not_null(boxedParam, L"boxedParam").as<IReferenceArray<type>>(); \
             auto unboxedValue = referenceArray.Value(); \
             TEST_REQUIRE_N(L"Param", ## number ##, std::equal(param.begin(), param.end(), unboxedValue.begin(), unboxedValue.end())); \
             auto arr = com_array<type>(param.begin(), param.end()); \
@@ -755,13 +780,13 @@ namespace winrt::TestComponent::implementation
 
     void TestRunner::TestProducer(ITests const& tests)
     {
-        RunTests(tests);
+        RunTests(not_null(tests, L"tests"));
     }
 
     uint32_t TestRunner::TestConsumer(TestHandler const& caller)
     {
         auto tests = make<Tests>();
-        caller(tests);
+        not_null(caller, L"caller")(tests);
         return tests.Percentage();
     }
 
@@ -837,6 +862,7 @@ namespace winrt::TestComponent::implementation
 
     IAsyncActionWithProgress<int32_t> TestRunner::CreateAsyncActionWithProgress(uint32_t milliseconds, IVectorView<int32_t> const items)
     {
+        not_null(items, L"items");
         auto progress{ co_await get_progress_token() };
 
         for (auto item : items)
@@ -848,6 +874,7 @@ namespace winrt::TestComponent::implementation
 
     IAsyncActionWithProgress<int32_t> TestRunner::CreateAsyncActionWithProgressWithError(uint32_t milliseconds, IVectorView<int32_t> const items, int32_t error)
     {
+        not_null(items, L"items");
         auto progress{ co_await get_progress_token() };
 
         for (auto item : items)
@@ -861,6 +888,7 @@ namespace winrt::TestComponent::implementation
 
     IAsyncOperationWithProgress<int32_t, int32_t> TestRunner::CreateAsyncOperationWithProgress(uint32_t milliseconds, IVectorView<int32_t> const items, int32_t result)
     {
+        not_null(items, L"items");
         auto progress{ co_await get_progress_token() };
 
         for (auto item : items)
@@ -875,6 +903,7 @@ namespace winrt::TestComponent::implementation
 
     IAsyncOperationWithProgress<int32_t, int32_t> TestRunner::CreateAsyncOperationWithProgressWithError(uint32_t milliseconds, IVectorView<int32_t> const items, int32_t result, int32_t error)
     {
+        not_null(items, L"items");
         auto progress{ co_await get_progress_token() };
 
 		for (auto item : items)
@@ -890,6 +919,6 @@ namespace winrt::TestComponent::implementation
 
     hstring TestRunner::ExpectObject(Windows::Foundation::IInspectable const& value)
     {
-        return get_class_name(value);
+        return get_class_name(not_null(value, L"value"));
     }
 }

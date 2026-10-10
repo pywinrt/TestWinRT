@@ -41,26 +41,26 @@ namespace winrt::TestComponent::implementation
 
     int32_t Composable::ExpectComposable(TestComponent::Composable const& t)
     {
-        return t.Value();
+        return not_null(t, L"t").Value();
     }
 
     int32_t Composable::ExpectRequiredOne(TestComponent::IRequiredOne const& t)
     {
-        return t.One();
+        return not_null(t, L"t").One();
     }
 
     int32_t Composable::ExpectRequiredTwo(TestComponent::IRequiredTwo const& t)
     {
-        return t.Two();
+        return not_null(t, L"t").Two();
     }
 
     int32_t Composable::ExpectRequiredThree(TestComponent::IRequiredThree const& t)
     {
-        return t.Three();
+        return not_null(t, L"t").Three();
     }
 
     int32_t Composable::ExpectRequiredFour(TestComponent::IRequiredFour const& t)
     {
-        return t.Four();
+        return not_null(t, L"t").Four();
     }
 }

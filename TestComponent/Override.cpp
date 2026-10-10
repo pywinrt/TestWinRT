@@ -19,7 +19,7 @@ namespace winrt::TestComponent::implementation
 
     event_token Override::ProtectedCalled(EventHandler<IInspectable> const& handler)
     {
-        return m_protected_called_event.add(handler);
+        return m_protected_called_event.add(not_null(handler, L"handler"));
     }
 
     void Override::ProtectedCalled(event_token token) noexcept
@@ -39,7 +39,7 @@ namespace winrt::TestComponent::implementation
 
     event_token Override::OverridableCalled(EventHandler<IInspectable> const& handler)
     {
-        return m_overridable_called_event.add(handler);
+        return m_overridable_called_event.add(not_null(handler, L"handler"));
     }
 
     void Override::OverridableCalled(event_token token) noexcept

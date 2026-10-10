@@ -19,7 +19,7 @@ namespace winrt::TestComponent::implementation
 
     event_token DerivedOverride::DerivedOverridableCalled(EventHandler<IInspectable> const& handler)
     {
-        return m_derived_overridable_called_event.add(handler);
+        return m_derived_overridable_called_event.add(not_null(handler, L"handler"));
     }
 
     void DerivedOverride::DerivedOverridableCalled(event_token token) noexcept
