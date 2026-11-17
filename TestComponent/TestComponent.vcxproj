@@ -152,8 +152,10 @@
     <ClInclude Include="ControlledAsync.h" />
     <ClInclude Include="Class.h" />
     <ClInclude Include="Composable.h" />
+    <ClInclude Include="CountedFactory.h" />
     <ClInclude Include="Derived.h" />
     <ClInclude Include="DerivedOverride.h" />
+    <ClInclude Include="FactoryCounter.h" />
     <ClInclude Include="OverloadClass.h" />
     <ClInclude Include="Override.h" />
     <ClInclude Include="ProtectedMembers.h" />
@@ -165,8 +167,10 @@
     <ClCompile Include="AsyncOperationSource.cpp" />
     <ClCompile Include="Class.cpp" />
     <ClCompile Include="Composable.cpp" />
+    <ClCompile Include="CountedFactory.cpp" />
     <ClCompile Include="Derived.cpp" />
     <ClCompile Include="DerivedOverride.cpp" />
+    <ClCompile Include="FactoryCounter.cpp" />
     <ClCompile Include="OverloadClass.cpp" />
     <ClCompile Include="Override.cpp" />
     <ClCompile Include="ProtectedMembers.cpp" />
