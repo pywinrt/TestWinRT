@@ -447,4 +447,28 @@ namespace TestComponent
         void Cancel();
         void InvokeCompletedHandler();
     }
+
+    // A class whose activation factories count themselves, for testing that a
+    // projection lets go of the activation factories it keeps.
+    //
+    // DllGetActivationFactory makes a new factory each time it is asked for
+    // one, and the component keeps none, so the count is how many factories
+    // its callers hold: a projection that keeps the factory it calls a
+    // constructor or a static through holds one for each factory it asked
+    // for, and none once it has let go of them.
+    [default_interface]
+    runtimeclass CountedFactory
+    {
+        CountedFactory();
+
+        static void StaticMethod();
+    }
+
+    // Reads the count of CountedFactory's activation factories through a
+    // factory of its own, so that reading it holds none of them.
+    static runtimeclass FactoryCounter
+    {
+        // How many activation factories of CountedFactory exist.
+        static UInt32 CountedFactoryCount{ get; };
+    }
 }
